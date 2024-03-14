@@ -6,6 +6,12 @@ bug-reports: "https://github.com/nberth/mlgmpidl/issues"
 homepage: "https://www.inrialpes.fr/pop-art/people/bjeannet/mlxxxidl-forge/mlgmpidl/"
 license: "LGPL-2.1-only WITH OCaml-LGPL-linking-exception"
 build: [
+ [
+   "sed"
+   "-ib"
+   "-e"
+   "s/checkprefix \"\\$cc \\$cflags\" mpfr\\.h/checkprefix \"\\$cc \\$cflags -I\\$gmp_prefix\\/include\" mpfr.h/g"
+   "configure"] {os = "macos" & os-distribution = "homebrew"}
   ["sh" "-exec" "./configure --absolute-dylibs --mpfr-prefix $HOMEBREW_PREFIX/opt/mpfr --gmp-prefix $HOMEBREW_PREFIX/opt/gmp"]  { os = "macos" & os-distribution = "homebrew" }
   ["sh" "./configure" "--absolute-dylibs" {os = "macos"} ]  { !(os = "macos"& os-distribution = "homebrew") }
   [make]
